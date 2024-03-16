@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DB_URL, options } from "../utils/constant";
 import { useNavigate } from "react-router-dom";
 
@@ -8,6 +8,14 @@ const useSignUp = () => {
     const handleSignUpData = (e) => {
         setSignUpData({ ...signUpData, [e.target.name]: e.target.value, isUser: 'false' })
     }
+
+    useEffect(() => {
+        const isUserLoggedIn = localStorage.getItem("isUserLoggedIn");
+        if (isUserLoggedIn) {
+            navigate("/home");
+            return;
+        }
+    }, [navigate]);
 
     const handleSignUpSubmit = async (e) => {
         e.preventDefault()

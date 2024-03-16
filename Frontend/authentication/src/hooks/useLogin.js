@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { DB_URL, options } from "../utils/constant"
 import { useNavigate } from "react-router-dom"
 import UsersContext from "../context/UsersContext"
@@ -24,6 +24,8 @@ const useLogin = () => {
         const json = await data.json()
         json.forEach((user) => {
             if (user.email === email && user.password === password) {
+                localStorage.setItem('isUserLoggedIn', true)
+                localStorage.setItem('userName', user.name)
                 postIsUser(user.id)
                 setUserName(user.name)
                 setIsUser(user.isUser)
@@ -32,6 +34,14 @@ const useLogin = () => {
         })
 
     }
+
+    useEffect(() => {
+        const isUserLoggedIn = localStorage.getItem("isUserLoggedIn");
+        if (isUserLoggedIn) {
+            navigate("/home");
+            return;
+        }
+    }, [navigate]);
 
     return { showPassword, handleShowPassword, handleLoginSubmit }
 }

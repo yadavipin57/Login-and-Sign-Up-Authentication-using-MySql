@@ -1,20 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useLogin from "../hooks/useLogin";
-import { useContext, useEffect, useRef } from "react";
-import UsersContext from "../context/UsersContext";
+import { useRef } from "react";
 
 const Login = () => {
   const email = useRef();
   const password = useRef();
-  const navigate = useNavigate();
   const { showPassword, handleShowPassword, handleLoginSubmit } = useLogin();
-  const { isUserLoggedIn } = useContext(UsersContext);
-  useEffect(() => {
-    if (isUserLoggedIn) {
-      navigate("/home");
-      return;
-    }
-  });
 
   return (
     <div className="bg-slate-700 w-full min-h-screen flex flex-col items-center justify-center p-5">
