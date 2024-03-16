@@ -1,21 +1,12 @@
-import { useContext, useEffect, useState } from "react"
-import { DB_URL, options } from "../utils/constant"
+import { useEffect, useState } from "react"
+import { DB_URL } from "../utils/constant"
 import { useNavigate } from "react-router-dom"
-import UsersContext from "../context/UsersContext"
 
 const useLogin = () => {
     const navigate = useNavigate()
     const [showPassword, setShowPassword] = useState(false)
-    const { setUserName, setIsUser } = useContext(UsersContext)
     const handleShowPassword = () => {
         setShowPassword(!showPassword)
-    }
-
-
-    const postIsUser = async (id) => {
-        await fetch(`${DB_URL}/isUser`, options('PUT', { isUser: "true", id: id }))
-            .then(() => console.log('Updated successfully'))
-            .catch((err) => console.log(err))
     }
 
     const handleLoginSubmit = async (e, email, password) => {
@@ -26,9 +17,6 @@ const useLogin = () => {
             if (user.email === email && user.password === password) {
                 localStorage.setItem('isUserLoggedIn', true)
                 localStorage.setItem('userName', user.name)
-                postIsUser(user.id)
-                setUserName(user.name)
-                setIsUser(user.isUser)
                 navigate('/home')
             }
         })
